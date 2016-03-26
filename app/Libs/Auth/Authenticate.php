@@ -11,14 +11,18 @@ namespace App\Libs\Auth;
 
 use App\Models\Sql\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 abstract class Authenticate
 {
     public function attempt(array $credentials)
     {
-        $user = User::where($credentials)->get()->first();
+        $user = User::where('email','=',$credentials['email'])->get()->first();
 
         if(!$user)
+            return false;
+
+        if(!Hash::check($credentials['password'], $user->password))
             return false;
 
         return true;

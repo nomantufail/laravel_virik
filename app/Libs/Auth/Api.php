@@ -23,7 +23,6 @@ class Api extends Authenticate implements AuthInterface
         $this->setAccessToken($this->generateToken($credentials));
         $authenticatedUser = $usersRepo->getFirst($credentials);
         $authenticatedUser->access_token = $this->getAccessToken();
-
         if(!$usersRepo->updateUser($authenticatedUser))
             return false;
 
@@ -45,6 +44,5 @@ class Api extends Authenticate implements AuthInterface
     {
         $this->accessToken = $accessToken;
     }
-
 
 }

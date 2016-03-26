@@ -212,9 +212,8 @@ return [
          * Requests Aliases
          * -----------------------------------------------------------
          * */
-        'AddUserRequest' => \App\Http\Requests\Requests\User\AddUserRequest::class,
-        'AuthenticationRequest' => \App\Http\Requests\Requests\Auth\AuthenticationRequest::class,
-
+        'RegistrationRequest' => \App\Http\Requests\Requests\Auth\RegistrationRequest::class,
+        'LoginRequest' => \App\Http\Requests\Requests\Auth\LoginRequest::class,
     ],
 
 ];

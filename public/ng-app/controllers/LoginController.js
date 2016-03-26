@@ -10,15 +10,21 @@ app.controller("LoginController",["$RouteHelper", "$rootScope", "$scope",
         //var ref = new Firebase("https://blistering-torch-713.firebaseio.com/test1/lies");
 
         $scope.login = function () {
-            $AuthService.authenticate().then(function (token) {
-                $AuthService.setAppToken(token);
-                $ResourceLoader.loadAll().then(function (response) {
-                    if(response == true)
-                        $location.path($RouteHelper.getAuthenticatedLandingUri());
-                    else
-                        console.log('can not redirect. server fucked up!!');
-                });
-
+            $AuthService.authenticate({
+                'email':'xyz@gmail.com',
+                'password': '123'
+            }).then(function (response) {
+                if(response.data.status == 1){
+                    $AuthService.setAppToken(response.data.access_token);
+                    $ResourceLoader.loadAll().then(function (response) {
+                        if(response == true)
+                            $location.path($RouteHelper.getAuthenticatedLandingUri());
+                        else
+                            console.log('can not redirect. server fucked up!!');
+                    });
+                }else{
+                    console.log(response.data.error.messages);
+                }
             }, function (data) {
                 alert('some thing went wrong');
             });

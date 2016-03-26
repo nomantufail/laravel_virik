@@ -11,15 +11,6 @@
 |
 */
 
-
-Route::post('/get/user',
-    [
-        'uses'=>'UsersController@getUser'
-    ]
-);
-
-
-
 Route::post('/login',
     [
         'middleware'=>
@@ -30,18 +21,15 @@ Route::post('/login',
     ]
 );
 
-Route::post('/user/add',
+Route::post('/register',
     [
         'middleware'=>
             [
-                'apiValidate:addUserRequest'
+                'apiValidate:registrationRequest'
             ],
-        'uses'=>'UsersController@store'
+        'uses'=>'Auth\AuthController@register'
     ]
 );
-
-
-
 
 
 /*

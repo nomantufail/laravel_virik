@@ -13,7 +13,7 @@ use App\Http\Requests\Interfaces\RequestInterface;
 use App\Http\Requests\Request;
 use App\Transformers\Request\AuthenticateUserTransformer;
 
-class AuthenticationRequest extends Request implements RequestInterface{
+class LoginRequest extends Request implements RequestInterface{
 
     public function __construct(){
         parent::__construct(new AuthenticateUserTransformer($this->getOriginalRequest()));

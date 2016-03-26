@@ -25,8 +25,8 @@ class UsersRepository extends SqlRepository implements UsersRepoInterface
 
     public function getFirst(array $where = [])
     {
-        $user = User::where($where)->with('document')->get()->first();
-        return ($user->document->json == null)?null:$this->userTransformer->transform($user->document->decode());
+        $user = User::where($where)->get()->first();
+        return ($user == null)?null:$this->userTransformer->transform($user);
     }
 
     public function updateUser($user)
@@ -37,7 +37,7 @@ class UsersRepository extends SqlRepository implements UsersRepoInterface
     public function storeUser($userInfo)
     {
         $user = User::create($userInfo);
-        Event::fire(new UserCreated($this->fetchUserWithRelations($user->id)));
+        //Event::fire(new UserCreated($this->fetchUserWithRelations($user->id)));
         return ($user == null)?null:$user->id;
     }
 

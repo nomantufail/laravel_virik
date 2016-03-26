@@ -15,12 +15,11 @@ app.factory("$AuthService", function ($rootScope, $http) {
             var promise = $http({
                 method: 'POST',
                 url: apiPath+'login',
-                data:{}
+                data:$credentials
             }).then(function successCallback(response) {
-                $token = response.data.access_token;
-                return $token;
+                return response;
             }, function errorCallback(response) {
-                return null;
+                return response;
             });
 
             return promise;
