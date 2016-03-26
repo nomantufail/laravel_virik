@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth\V1;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Requests\Auth\AuthenticationRequest;
@@ -35,7 +35,7 @@ class AuthController extends Controller
     }
     public function login(AuthenticationRequest $request)
     {
-        $credentials = [
+        /*$credentials = [
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ];
@@ -45,11 +45,9 @@ class AuthController extends Controller
 
         $authenticatedUser = $this->auth->login($credentials, $this->usersRepo);
         if($authenticatedUser == null)
-            $this->response->respondInternalServerError();
+            $this->response->respondInternalServerError();*/
 
-        return $this->response->respond(['data'=>[
-            'user'=>$this->userTransformer->transform($authenticatedUser),
-        ]]);
+        return $this->response->respond(['data'=>null]);
     }
 
     public function register(Request $request)

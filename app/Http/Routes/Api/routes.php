@@ -24,7 +24,7 @@ Route::post('/login',
     [
         'middleware'=>
             [
-                'apiValidate:authenticationRequest'
+                //'apiValidate:authenticationRequest'
             ],
         'uses'=>'Auth\AuthController@login'
     ]

@@ -29,6 +29,6 @@ class CreateTripTypesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('drivers');
+        Schema::drop('trip_types');
     }
 }
