@@ -23,8 +23,9 @@ class ApiAuthenticator
     public function handle($request, Closure $next, $customRequest)
     {
         $customRequest = ucfirst($customRequest);
-
-        return $this->response->respond(['error'=>'user not authenticated']);
+        $customRequest = new $customRequest();
+        if($customRequest->isNotAuthentic())
+            return $this->response->respondAuthenticationFailed();
 
         return $next($request);
     }

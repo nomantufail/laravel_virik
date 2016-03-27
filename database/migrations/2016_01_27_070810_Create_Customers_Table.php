@@ -16,11 +16,11 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
 
             $table->string('name')->unique();
-            $table->string('id_card');
-            $table->string('phone');
-            $table->string('email');
-            $table->text('address');
-            $table->string('image');
+            $table->string('id_card')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->text('address')->nullable();
+            $table->string('image')->nullable();
 
             $table->security();
         });

@@ -6,6 +6,8 @@ var app = angular.module('inventory_system',['ngRoute', 'ui.router', 'firebase']
 
 app.run(function($rootScope, $location, $AuthService, $state) {
     $rootScope.AUTH_TOKEN = null;
+    $rootScope.AUTH_USER = null;
+    $rootScope.APP_STATUS = 'ok';
     $rootScope.html_title = "Inventory System";
 
     $rootScope.CUSTOMERS = [];

@@ -23,43 +23,42 @@ class UsersRepository extends SqlRepository implements UsersRepoInterface
         $this->userTransformer = new UserTransformer();
     }
 
+    public function all()
+    {
+        return User::all();
+    }
+
     public function getFirst(array $where = [])
     {
         $user = User::where($where)->get()->first();
         return ($user == null)?null:$this->userTransformer->transform($user);
     }
 
-    public function updateUser($user)
+    public function getById($id)
     {
+        return $this->getFirst(['id'=>$id]);
+    }
+
+    public function getByToken($token)
+    {
+        return $this->getFirst(['access_token'=>$token]);
+    }
+
+    public function update($user)
+    {
+        $user->save();
         return true;
     }
 
-    public function storeUser($userInfo)
+    public function store($userInfo)
     {
         $user = User::create($userInfo);
-        //Event::fire(new UserCreated($this->fetchUserWithRelations($user->id)));
         return ($user == null)?null:$user->id;
     }
 
-    public function deleteUser($userId)
+    public function delete($userId)
     {
         User::destroy($userId);
         return true;
-    }
-
-    public function getUserDocument($userId)
-    {
-        $user = User::where('id','=',$userId)->with('document')->get()->first();
-        return ($user->document == null)?null:$this->userTransformer->transform($user->document->decode());
-    }
-
-    public function fetchUserWithRelations($userId)
-    {
-        $user = User::where('id','=', $userId)
-            ->with('country')
-            ->with('membershipPlan')
-            ->with('agencies')
-            ->get()->first();
-        return $user;
     }
 }

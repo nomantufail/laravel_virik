@@ -30,4 +30,13 @@ class RegistrationRequest extends Request implements RequestInterface{
     public function validate(){
         return $this->validator->validate();
     }
+
+    public function getInsertables()
+    {
+        return [
+            'name' => $this->get('name'),
+            'email' => $this->get('email'),
+            'password' => bcrypt($this->get('password')),
+        ];
+    }
 } 

@@ -11,8 +11,8 @@ namespace App\Http\Requests\Requests\Customer;
 
 use App\Http\Requests\Interfaces\RequestInterface;
 use App\Http\Requests\Request;
-use App\Http\Validators\Validators\UserValidators\AddUserValidator;
-use App\Transformers\Request\AddUserTransformer;
+use App\Http\Validators\Validators\CustomerValidators\AddCustomerValidator;
+use App\Transformers\Request\Customer\AddCustomerTransformer;
 
 class AddCustomerRequest extends Request implements RequestInterface{
 
@@ -21,6 +21,20 @@ class AddCustomerRequest extends Request implements RequestInterface{
         parent::__construct(new AddCustomerTransformer($this->getOriginalRequest()));
 
         $this->validator = new AddCustomerValidator($this->getOriginalRequest());
+    }
+
+    public function getCustomerInfo()
+    {
+        $authUser = $this->authenticator->user();
+        return [
+            'name' => $this->get('name'),
+            'email' => $this->get('email'),
+            'phone' => $this->get('phone'),
+            'address' => $this->get('address'),
+            'id_card' => $this->get('id_card'),
+            'created_by' => $authUser->id,
+            'updated_by' => $authUser->id,
+        ];
     }
 
     public function authorize(){

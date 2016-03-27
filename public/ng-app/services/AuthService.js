@@ -11,15 +11,22 @@ app.factory("$AuthService", function ($rootScope, $http) {
             $rootScope.AUTH_TOKEN = $token;
         },
 
+        setAuthUser: function ($user) {
+            $rootScope.AUTH_USER = $user;
+        },
+        getAuthUser: function () {
+            return $rootScope.AUTH_USER;
+        },
+
         authenticate: function ($credentials) {
             var promise = $http({
                 method: 'POST',
                 url: apiPath+'login',
                 data:$credentials
             }).then(function successCallback(response) {
-                return response;
+                return response.data;
             }, function errorCallback(response) {
-                return response;
+                return response.data;
             });
 
             return promise;

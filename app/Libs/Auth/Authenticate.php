@@ -10,11 +10,17 @@ namespace App\Libs\Auth;
 
 
 use App\Models\Sql\User;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Repositories\Sql\UsersRepository;
 use Illuminate\Support\Facades\Hash;
 
 abstract class Authenticate
 {
+    public $users = null;
+    public function __construct()
+    {
+        $this->users = new UsersRepository();
+    }
+
     public function attempt(array $credentials)
     {
         $user = User::where('email','=',$credentials['email'])->get()->first();

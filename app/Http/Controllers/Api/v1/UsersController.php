@@ -19,18 +19,31 @@ class UsersController extends ApiController
 {
     private $userTransformer;
     private $userRepo;
-    private $agencyRepo;
     public $response;
     public function __construct
     (
         ApiResponse $apiResponse, UserTransformer $userTransformer,
-        UsersRepoInterface $usersRepository, AgenciesRepoInterface $agenciesRepository
+        UsersRepoInterface $usersRepository
     )
     {
         $this->response = $apiResponse;
         $this->userTransformer = $userTransformer;
         $this->userRepo = $usersRepository;
-        $this->agencyRepo = $agenciesRepository;
+    }
+
+    public function index()
+    {
+        return $this->response->respond(['data'=>[
+            'users'=> $this->userRepo->all(),
+        ]]);
+    }
+
+    public function store(AddUserRequest $request)
+    {
+        $userId = $this->userRepo->storeUser($request->getUserInfo());
+        return $this->response->respond(['data' =>[
+            'user'=> $this->userRepo->getById($userId)
+        ]]);
     }
 
     public function getUser()
@@ -39,25 +52,6 @@ class UsersController extends ApiController
         return $this->response->respond(['data'=>[
             'user'=>$this->userTransformer->transformDocument($user)
         ]]);
-    }
-
-    public function store(AddUserRequest $request)
-    {
-        $userId = $this->userRepo->storeUser($request->getUserInfo());
-
-        if($userId == null)
-            return $this->response->respondInternalServerError();
-
-        if($request->userIsAgent())
-            if(!$this->storeAgency($request->getAgencyInfo(), $userId))
-                return $this->response->respondInternalServerError();
-
-        $response = [
-            'user'=>$this->userTransformer
-                ->transformDocument($this->userRepo->getUserDocument($userId))
-        ];
-
-        return $this->response->respond($response);
     }
 
     private function storeAgency(array $agencyInfo, $userId)

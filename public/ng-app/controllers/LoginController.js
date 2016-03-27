@@ -14,8 +14,11 @@ app.controller("LoginController",["$RouteHelper", "$rootScope", "$scope",
                 'email':'xyz@gmail.com',
                 'password': '123'
             }).then(function (response) {
-                if(response.data.status == 1){
-                    $AuthService.setAppToken(response.data.access_token);
+                if(response.status == 1){
+
+                    $AuthService.setAppToken(response.access_token);
+                    $AuthService.setAuthUser(response.data.authUser);
+
                     $ResourceLoader.loadAll().then(function (response) {
                         if(response == true)
                             $location.path($RouteHelper.getAuthenticatedLandingUri());
@@ -23,20 +26,10 @@ app.controller("LoginController",["$RouteHelper", "$rootScope", "$scope",
                             console.log('can not redirect. server fucked up!!');
                     });
                 }else{
-                    console.log(response.data.error.messages);
+                    console.log(response.error.messages);
                 }
             }, function (data) {
                 alert('some thing went wrong');
             });
-            /*$http({
-                method: 'GET',
-                url: '/auth/login'
-            }).then(function successCallback(response) {
-                $token = response.data.token;
-                $rootScope.AUTH_TOKEN = $token;
-                window.location = $state.href('home.customers.all');
-            }, function errorCallback(response) {
-                alert('oooops :((');
-            });*/
         }
 }]);

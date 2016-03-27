@@ -31,6 +31,37 @@ Route::post('/register',
     ]
 );
 
+Route::get('/users',
+    [
+        'middleware'=>
+            [
+                'apiAuthenticate:getUsersRequest'
+            ],
+        'uses'=>'UsersController@index'
+    ]
+);
+
+Route::get('/customers',
+    [
+        'middleware'=>
+            [
+                'apiAuthenticate:getCustomersRequest'
+            ],
+        'uses'=>'CustomersController@index'
+    ]
+);
+
+Route::post('/customer/add',
+    [
+        'middleware'=>
+            [
+                'apiAuthenticate:addCustomerRequest',
+                'apiValidate:addCustomerRequest'
+            ],
+        'uses'=>'CustomersController@store'
+    ]
+);
+
 
 /*
 |--------------------------------------------------------------------------

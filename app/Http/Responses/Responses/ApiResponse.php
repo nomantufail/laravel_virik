@@ -10,10 +10,13 @@ namespace App\Http\Responses\Responses;
 
 use App\Http\Responses\Interfaces\ResponseInterface;
 use App\Http\Responses\Response as AppResponse;
+use App\Traits\RequestHelper;
 use League\Flysystem\Config;
 
 class ApiResponse extends AppResponse implements ResponseInterface
 {
+    use RequestHelper;
+
     public function __construct(){}
 
 
@@ -32,17 +35,12 @@ class ApiResponse extends AppResponse implements ResponseInterface
         $access_token = '';
         if(isset($response['access_token']))
             $access_token = $response['access_token'];
-        else if(isset($response['data']) && isset($response['data']['user'])){
-            $access_token = $response['data']['user']->access_token;
+        else if(isset($response['data']) && isset($response['data']['authUser'])){
+            $access_token = $response['data']['authUser']->access_token;
         }else{
             $access_token = $this->getAccessToken();
         }
         $response['access_token'] = $access_token;
         return response()->json($response, $this->getHttpStatus(), $headers);
     }
-
-    public function getAccessToken(){
-        return "iAmASuperSecureAccessToken";
-    }
-
 }

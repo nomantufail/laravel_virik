@@ -11,5 +11,7 @@ namespace App\Libs\Auth;
 
 interface AuthInterface
 {
-
+    public function authenticate();
+    public function login(array $credentials);
+    public function user();
 }

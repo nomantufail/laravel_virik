@@ -161,6 +161,7 @@ return [
          */
         App\Providers\Repositories\UsersRepositoryProvider::class,
         App\Providers\Repositories\AgenciesRepositoryProvider::class,
+        App\Providers\Repositories\CustomersRepositoryProvider::class,
 
     ],
 
@@ -214,6 +215,9 @@ return [
          * */
         'RegistrationRequest' => \App\Http\Requests\Requests\Auth\RegistrationRequest::class,
         'LoginRequest' => \App\Http\Requests\Requests\Auth\LoginRequest::class,
+        'GetUsersRequest' => \App\Http\Requests\Requests\User\GetUsersRequest::class,
+        'GetCustomersRequest' => \App\Http\Requests\Requests\User\GetUsersRequest::class,
+        'AddCustomerRequest' => \App\Http\Requests\Requests\Customer\AddCustomerRequest::class,
     ],
 
 ];

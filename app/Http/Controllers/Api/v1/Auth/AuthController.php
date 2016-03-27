@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Request;
 class AuthController extends Controller
 {
     private $auth;
-    private $usersRepo;
+    private $users;
     private $userTransformer;
     public $response;
     public function __construct
@@ -35,7 +35,7 @@ class AuthController extends Controller
     )
     {
         $this->auth = $authenticator;
-        $this->usersRepo = $usersRepository;
+        $this->users = $usersRepository;
         $this->response = $response;
         $this->userTransformer = $userTransformer;
     }
@@ -49,22 +49,20 @@ class AuthController extends Controller
         if(!$this->auth->attempt($credentials))
             return $this->response->respondInvalidCredentials();
 
-        $authenticatedUser = $this->auth->login(['email'=>$credentials['email']], $this->usersRepo);
+        $authenticatedUser = $this->auth->login(['email'=>$credentials['email']]);
         if($authenticatedUser == null)
             $this->response->respondInternalServerError();
 
         return $this->response->respond(['data'=>[
-            'user' => $authenticatedUser
+            'authUser' => $authenticatedUser
         ]]);
     }
 
     public function register(RegistrationRequest $request)
     {
-        $user = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
-        ]);
-        return $this->response->respond(['data' => ['user'=>$user]]);
+        $userId = $this->users->store($request->getInsertables());
+        return $this->response->respond(['data' =>[
+            'user'=> $this->users->getById($userId)
+        ]]);
     }
 }
